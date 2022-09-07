@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e97c5"],{"8e79":function(e,n,t){"use strict";t.r(n);var c=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{staticClass:"container"},[e._v("题组管理")])},a=[],s={},i=s,r=t("2877"),u=Object(r["a"])(i,c,a,!1,null,"50721fba",null);n["default"]=u.exports}}]);
+//# sourceMappingURL=chunk-2d0e97c5.a3563f44.js.map

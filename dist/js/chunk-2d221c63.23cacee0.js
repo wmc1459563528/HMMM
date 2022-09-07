@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d221c63"],{cc7d:function(n,c,e){"use strict";e.r(c);var t=function(){var n=this,c=n.$createElement,e=n._self._c||c;return e("div",{staticClass:"container"},[n._v("精选题库")])},s=[],a={},i=a,r=e("2877"),u=Object(r["a"])(i,t,s,!1,null,"71e03354",null);c["default"]=u.exports}}]);
+//# sourceMappingURL=chunk-2d221c63.23cacee0.js.map

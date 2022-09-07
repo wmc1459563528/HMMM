@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0cb764"],{"4a89":function(n,t,e){"use strict";e.r(t);var a=function(){var n=this,t=n.$createElement,e=n._self._c||t;return e("div",{staticClass:"container"},[n._v("添加学科对话框")])},c=[],s={},i=s,r=e("2877"),u=Object(r["a"])(i,a,c,!1,null,"a7701844",null);t["default"]=u.exports}}]);
+//# sourceMappingURL=chunk-2d0cb764.c21dfe09.js.map
