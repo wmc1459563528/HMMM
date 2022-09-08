@@ -85,7 +85,7 @@
         </el-row>
       </el-form>
         <!-- 数据记录 -->
-        <el-alert title="数据一共7条" type="info" :closable="false" show-icon  style="margin-bottom:15px"></el-alert>
+        <el-alert title="数据一共xx条" type="info" :closable="false" show-icon  style="margin-bottom:15px"></el-alert>
         <!-- 列表-->
       <el-table :data="questions">
         <el-table-column label="试题编号"></el-table-column>
@@ -103,7 +103,7 @@
        style="margin-top:20px;text-align:right"
        background
        layout="prev, pager, next,sizes,jumper"
-        :page-sizes="[5,10,20,50]"
+       :page-sizes="[5,10,20,50]"
        :total="1000">
       </el-pagination>
       </el-card>
