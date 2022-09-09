@@ -34,18 +34,48 @@
           <el-form>
             <el-form-item>
               <el-button v-if="subject.id && subject.name" type="text" icon="el-icon-back" @click="$router.back()">返回学科</el-button>
-              <el-button icon="el-icon-edit" type="success">新增目录</el-button>
+              <el-button icon="el-icon-edit" @click="addTag()" type="success">新增目录</el-button>
             </el-form-item>
           </el-form>
         </el-col>
       </el-card>
+      <!-- 数据提示 -->
+      <el-alert
+        :title="`数据一共 ${total} 条`"
+        style="margin-bottom:15px"
+        type="info"
+        class="alert"
+        :closable="false"
+        show-icon
+      ></el-alert>
+      <!-- 表格 -->
+      <el-table :data="tags">
+        <el-table-column label="序号" type="index" width="80px"></el-table-column>
+        <el-table-column label="所属学科" prop="subjectName"></el-table-column>
+        <el-table-column label="标签名称" prop="tagName"></el-table-column>
+        <el-table-column label="创建者" prop="username"></el-table-column>
+        <el-table-column label="创建日期">
+          <template slot-scope="scope">{{scope.row.addDate|parseTimeByString}}</template>
+        </el-table-column>
+        <el-table-column label="状态">
+          <template slot-scope="scope">{{scope.row.state===1?'已启用':'已禁用'}}</template>
+        </el-table-column>
+        <el-table-column label="操作" width="150px">
+          <template slot-scope="scope">
+            <el-button type="text" @click="toggleState(scope.row)">{{scope.row.state===1?'禁用':'启用'}}</el-button>
+            <el-button type="text" @click="addTag(scope.row)" :disabled="scope.row.state===1">修改</el-button>
+            <el-button type="text" @click="delTag(scope.row)" :disabled="scope.row.state===1||scope.row.totals > 0">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
-    <tags-add ref="tagssAdd"></tags-add>
+    <!-- 添加和修改 -->
+    <tags-add ref="tagssAdd" :data="currTag" @updateList="updateList()"></tags-add>
   </div>
 </template>
 
 <script>
-import { list } from '@/api/hmmm/tags'
+import { list, changeState, remove } from '@/api/hmmm/tags'
 import TagsAdd from '../components/tags-add'
 export default {
   name: 'TagsList',
@@ -68,10 +98,13 @@ export default {
       return this.$route.query || {}
     }
   },
+  created () {
+    this.getList()
+  },
   methods: {
     // 清除
     clear () {
-      this.requestParams = {
+      this.tagPage = {
         tagsName: null,
         state: null,
         page: 1,
@@ -80,7 +113,7 @@ export default {
     },
     // 筛选
     filter () {
-      this.requestParams.page = 1
+      this.tagPage.page = 1
       this.getList()
     },
     // 获取列表
@@ -89,6 +122,38 @@ export default {
       const { data } = await list(this.tagPage)
       this.tags = data.items
       this.total = data.counts
+    },
+    // 新增目录
+    addTag (tag = {}) {
+      this.currTag = tag
+      this.$nextTick(() => {
+        this.$refs.tagssAdd.open()
+      })
+    },
+    // 添加/修改内容
+    updateList () {
+      if (!this.currTag.id) {
+        this.tagPage.page = 1
+      }
+      this.getList()
+    },
+    // 禁用/启用按钮切换
+    async toggleState (tag) {
+      await changeState({
+        id: tag.id,
+        state: tag.state === 1 ? 0 : 1
+      })
+      this.$message.success('操作成功')
+      tag.state = tag.state === 1 ? 0 : 1
+    },
+    // 删除
+    async delTag (tag) {
+      await this.$confirm('此操作将永久删除该标签, 是否继续?', '提示', {
+        type: 'warning'
+      })
+      await remove(tag)
+      this.$message.success('删除成功')
+      this.getList()
     }
   }
 }
