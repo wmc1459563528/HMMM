@@ -133,7 +133,51 @@ export default {
     this.getAtricleList()
   },
   methods: {
+    // 查询列表
+    async getAtricleList () {
+      // 增强用户体验 数据回来之前出现个加载框
+      this.loading = true
+      const {
+        data: { items, counts }
+      } = await list({
+        ...this.form,
+        page: this.page,
+        pagesize: this.pagesize
+      })
+      // 将获取到的数据赋值给ArticlesList和total
+      // console.log(items)
+      this.ArticlesList = items
+      this.total = counts
+      // 还原加载框
+      this.loading = false
+    },
+    // 序号递增 下一页时累加
+    indexMethod (index) {
+      return index + 1 + this.pagesize * (this.page - 1)
+    },
+    // 切换分页
+    handleCurrentChange (val) {
+      this.page = val
+      this.getAtricleList()
+    },
+    // pageSize 改变时会触发  当前页发生变化
+    handleSizeChange (size) {
+      this.page = 1
+      this.pagesize = size
+      this.getAtricleList()
+    },
 
+    // 切换状态
+    async handletoggleState (article) {
+      await changeState({
+        id: article.id,
+        state: article.state === 1 ? 0 : 1
+      })
+      // 提示用户
+      this.$message.success('操作成功')
+      // 判断str.state是否是启用状态,如果是则返回true否则为false 并重新赋值给str.state
+      article.state = article.state === 1 ? 0 : 1
+    },
     // 视频
     handleVideo (url) {
       this.videoURL = url
@@ -156,40 +200,6 @@ export default {
 
       this.videoURL = null
     },
-    // 序号递增 下一页时累加
-    indexMethod (index) {
-      return index + 1 + this.pagesize * (this.page - 1)
-    },
-    // 预览
-    // 文章预览
-    handlePreview (val) {
-      this.isShowDialogVisible = true
-      this.currArticle = val
-      // console.log(val)
-    },
-    // 添加 编辑
-    handleOpenDialog (article = {}) {
-      this.currArticle = article
-      this.$nextTick(() => {
-        this.$refs.articlesAdd.open()
-      })
-    },
-    // 切换状态
-    async handletoggleState (article) {
-      await changeState({
-        id: article.id,
-        state: article.state === 1 ? 0 : 1
-      })
-      this.$message.success('操作成功')
-      article.state = article.state === 1 ? 0 : 1
-    },
-    // 删除
-    async handleDelArticle (article) {
-      await this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', { type: 'warning' })
-      await remove(article)
-      this.$message.success('删除成功')
-      this.getAtricleList()
-    },
     // 清除筛选条件
     handleClear () {
       this.form = {
@@ -203,36 +213,31 @@ export default {
       this.page = 1
       this.getAtricleList()
     },
-    // 查询列表
-    async getAtricleList () {
-      // 增强用户体验 数据回来之前出现个加载框
-      this.loading = true
-      const {
-        data: { items, counts }
-      } = await list({
-        ...this.form,
-        page: this.page,
-        pagesize: this.pagesize
+
+    // 预览
+    // 文章预览
+    handlePreview (val) {
+      this.isShowDialogVisible = true
+      this.currArticle = val
+      // console.log(val)
+    },
+    // 添加&&编辑
+    handleOpenDialog (article = {}) {
+      this.currArticle = article
+      this.$nextTick(() => {
+        this.$refs.articlesAdd.open()
       })
-      // 将获取到的数据赋值给ArticlesList和total
-      // console.log(items)
-      this.ArticlesList = items
-      this.total = counts
-      // 还原加载框
-      this.loading = false
     },
-    // pageSize 改变时会触发  当前页发生变化
-    handleSizeChange (size) {
-      this.page = 1
-      this.pagesize = size
+
+    // 删除
+    async handleDelArticle (article) {
+      await this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', { type: 'warning' })
+      await remove(article)
+      this.$message.success('删除成功')
       this.getAtricleList()
     },
-    // 切换分页
-    handleCurrentChange (val) {
-      this.page = val
-      this.getAtricleList()
-    },
-    // 新增|修改 后更新列表
+
+    // 新增&&修改 后更新列表
     handelUpdateList () {
       if (!this.currArticle.id) {
         this.page = 1
