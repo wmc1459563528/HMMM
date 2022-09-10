@@ -193,7 +193,7 @@ export default {
     },
     //  关闭视频
     handleClose () {
-      // todo 貌似有BUG 有时候点击关闭之后还会有声音
+      // todo 该方法好像有BUG 有时候点击关闭之后还会有声音
       this.$nextTick(() => {
         // pause()暂停当前播放的视频。
         this.$refs.video.pause()

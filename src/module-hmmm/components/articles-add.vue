@@ -95,21 +95,20 @@ export default {
       })
     },
     async confirm () {
-      this.$refs.form.validate(async valid => {
-        if (valid) {
-          // 提交
-          if (!this.data.id) {
-            // 新增
-            await add(this.formModel)
-          } else {
-            // 修改
-            this.formModel.id = this.data.id
-            await update(this.formModel)
-          }
-          this.$message.success('操作成功')
-          this.show = false
-          this.$emit('updateList')
+      this.$refs.form.validate(async flag => {
+        if (!flag) return
+        // 提交
+        if (!this.data.id) {
+          // 新增
+          await add(this.formModel)
+        } else {
+          // 修改
+          this.formModel.id = this.data.id
+          await update(this.formModel)
         }
+        this.$message.success('操作成功')
+        this.show = false
+        this.$emit('updateList')
       })
     }
   }

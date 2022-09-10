@@ -98,6 +98,9 @@ export default {
         type: 'warning'
       })
       await remove(subject)
+      // 如果为当前页的第一项，且数组长度为1则需要当前页-1
+      if (this.subjects.length === 1 && this.requestParams.page > 1) this.requestParams.page--
+      // console.log(this.subjects.length, this.requestParams.page)
       this.$message.success('删除成功')
       this.getList()
     },
@@ -122,6 +125,7 @@ export default {
         page: 1,
         pagesize: 10
       }
+      this.getList()
     },
     // 进行筛选
     filter () {

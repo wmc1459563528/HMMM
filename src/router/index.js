@@ -110,6 +110,11 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
+// 解决Redirected when going from "/login" to "/dashboard" via a navig报错问题
+const routerPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return routerPush.call(this, location).catch(error => error)
+}
 
 router.afterEach(() => {
   NProgress.done() // finish progress bar

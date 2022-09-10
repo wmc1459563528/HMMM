@@ -135,6 +135,7 @@ export default {
     // 清除
     clear () {
       this.Qran.keyword = null
+      this.getList()
     },
     // 筛选
     filter () {
@@ -149,6 +150,9 @@ export default {
         type: 'warning'
       })
       await questionDel({ id: question.id })
+      // 如果为当前页的第一项，且数组长度为1则需要当前页-1
+      if (this.questions.length === 1 && this.Qran.page > 1) this.Qran.page--
+      // console.log(this.questions.length, this.Qran.page)
       this.$message.success('删除成功')
       this.getList()
     },

@@ -232,6 +232,7 @@ import { choice as questionList, remove as questionDel, choicePublish } from '@/
 import QuestionsPreview from '../components/questions-preview'
 import QuestionsCheck from '../components/questions-check'
 export default {
+  name: 'QuestionsChoice',
   components: {
     QuestionsPreview,
     QuestionsCheck
@@ -356,12 +357,11 @@ export default {
     },
     // 删除
     async delQuestion (question) {
-      await this.$confirm('此操作将永久删除该题目, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
+      await this.$confirm('此操作将永久删除该题目, 是否继续?', '提示', { type: 'warning' })
       await questionDel(question)
+      // 如果为当前页的第一项，且数组长度为1则需要当前页-1
+      if (this.questions.length === 1 && this.requestParams.page > 1) this.requestParams.page--
+      // console.log(this.questions.length, this.requestParams.page)
       this.$message.success('删除成功')
       this.getList()
     },
@@ -369,6 +369,7 @@ export default {
       for (const key in this.requestParams) {
         if (key !== 'page' && key !== 'pagesize') this.requestParams[key] = null
       }
+      this.getList()
     },
     filter () {
       this.requestParams.page = 1
