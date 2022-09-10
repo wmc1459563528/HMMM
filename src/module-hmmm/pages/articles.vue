@@ -85,7 +85,7 @@
         :page-size="pagesize"
         :current-page="page"
         @current-change="handleCurrentChange"
-        :page-sizes="[5,10,20,50]"
+        :page-sizes="[5,10,20,30]"
         @size-change="handleSizeChange"
       ></el-pagination>
     </el-card>
@@ -283,7 +283,7 @@ export default {
   video{
     position:absolute;
     left: -350px;
-    top: 30px;
+    top: 50px;
     width: 800px;
     height: 500px;
   }

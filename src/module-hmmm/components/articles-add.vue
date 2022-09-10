@@ -6,7 +6,8 @@
           <el-input v-model="formModel.title" placeholder="请输入文章标签"></el-input>
         </el-form-item>
         <el-form-item label="文章内容：" prop="articleBody">
-          <quill-editor v-model="formModel.articleBody" :options="editorOptions"></quill-editor>
+          <!-- 富文本编辑器 -->
+          <quill-editor v-model="formModel.articleBody" :options="editorOptions" />
         </el-form-item>
         <el-form-item label="视频地址：" prop="videoURL">
           <el-input v-model="formModel.videoURL" placeholder="请输入视频地址"></el-input>
@@ -28,7 +29,10 @@ import 'quill/dist/quill.bubble.css'
 import { quillEditor } from 'vue-quill-editor'
 export default {
   name: 'ArticlesAdd',
-  components: { quillEditor },
+  components: {
+    // 富文本编辑器
+    quillEditor
+  },
   props: {
     data: {
       default: () => {},
