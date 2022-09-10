@@ -53,7 +53,12 @@ export function parseTime (time, cFormat) {
   })
   return timeStr
 }
-
+/**
+ * 日期转换
+ * @param {*} time 时间
+ * @param {*} cFormat 转换的格式
+ * @returns
+ */
 export function parseTimeByString (time, cFormat) {
   if (arguments.length === 0) {
     return null

@@ -4,6 +4,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--  
+      <meta name=referrer content=no-referrer> 
+      数据请求的请求头多了一个Referer: http://localhost:3000/而复制链接在新窗口直接打开，
+      请求头中并不会携带Referer 
+      这就说明是Referer携带了我们自身网站的域名，第三方网站认为这是非法访问，所以报错403 forbidden -->
+    <meta name=referrer content=no-referrer>
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
