@@ -10,10 +10,14 @@ const instance = axios.create({
   // 当我们运行npm run build时，vuecli会自动设置这个 process.env.NODE_ENV 为production
   // baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7001/' : 'http://hmmm-api.itheima.net',
 <<<<<<< HEAD
+<<<<<<< HEAD
   // baseURL: 'http://hmmm-api.itheima.net', // 线上地址
 =======
   baseURL: 'http://9803.kylexk.com', // 线上地址
 >>>>>>> feature/questions
+=======
+  baseURL: 'http://9803.kylexk.com', // 线上地址
+>>>>>>> feature/randoms
   // baseURL: 'http://localhost:7001', // 本地地址，7001是默认端口号
   baseURL: 'http://9803.kylexk.com', // 线上地址
   timeout: 5000 // request timeout
