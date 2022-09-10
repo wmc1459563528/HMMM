@@ -97,7 +97,7 @@
         :isShow.sync="isShowDialogVisible"
       />
       <!-- 音频 -->
-    <div v-if="videoURL">
+    <div  v-if="videoURL">
         <div @click="handleClose" class="el-icon-close">
           <video ref="video" :src="videoURL" controls></video>
         </div>
@@ -182,9 +182,10 @@ export default {
     handleVideo (url) {
       this.videoURL = url
       /*
-     因为this.$refs.video外层用了v-if,所以获取到的this.$refs.video值是undefined
-     用nextTick让它在微任务时候执行
+        因为this.$refs.video外层用了v-if,所以获取到的this.$refs.video值是undefined
+        用nextTick让它在微任务时候执行
       */
+      console.log(this.$refs.video)
       this.$nextTick(() => {
         // play()开始播放视频。
         this.$refs.video.play()
@@ -230,9 +231,12 @@ export default {
     },
 
     // 删除
-    async handleDelArticle (article) {
+    async handleDelArticle (articleData) {
       await this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', { type: 'warning' })
-      await remove(article)
+      await remove(articleData)
+      // console.log(this.ArticlesList.length)
+      // ! 特殊处理：如果为当前页的第一项，且数组长度为1则需要当前页-1
+      if (this.ArticlesList.length === 1 && this.page > 1) this.page--
       this.$message.success('删除成功')
       this.getAtricleList()
     },

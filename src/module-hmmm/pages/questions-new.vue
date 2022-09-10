@@ -265,6 +265,8 @@ export default {
   },
   data () {
     return {
+      enterpriseIDLists: '',
+      tagsLists: '',
       token: getToken(),
       selectCode: true,
 
@@ -451,6 +453,7 @@ export default {
       this.formData.tags = null
       const res2 = await tagsList(this.formData.subjectID)
       this.tagsLists = res2.data
+      console.log(this.tagsLists)
     },
     async simple () {
       const { data } = await simple()
@@ -462,6 +465,7 @@ export default {
       } = await enterpriseIDList({ pagesize: 10000 })
       this.enterpriseIDLists = items
       console.log(items)
+      console.log(this.enterpriseIDLists)
     },
     async tagsList () {
       const { data } = await tagsList()
@@ -496,25 +500,25 @@ export default {
     },
     // 提交
     submit () {
-      console.log(this.formData)
-      this.$refs.form.validate(async (flag) => {
+      // console.log(this.formData, 1111)
+      this.$refs.form.validate(async flag => {
         if (!flag) return
         const { data: res } = await add(this.formData)
         console.log(res)
         this.$message.success('试题录入成功')
         this.$router.push('/questions/list')
-        console.log(1)
+        // console.log(1)
       })
     },
     // 修改
     update () {
       this.$refs.form.validate(async (flag) => {
         if (!flag) return
-        const { data: res } = await update(this.formData)
+        const res = await update(this.formData)
         console.log(res)
         this.$message.success('修改成功')
         this.$router.push('/questions/list')
-        console.log(1)
+        // console.log(1)
       })
     }
   }

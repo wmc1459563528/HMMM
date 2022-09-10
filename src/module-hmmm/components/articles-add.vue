@@ -65,10 +65,10 @@ export default {
             ['blockquote', 'code-block'], // 引用 代码块
             [{ list: 'ordered' }, { list: 'bullet' }], // 有序、无序列表
 
-            [{ header: 1 }, { header: 2 }], // 1、2 级标题
-            ['image', 'video', 'link'], // 链接、图片、视频、链接
-            [{ indent: '-1' }, { indent: '+1' }], // 缩进
-            ['clean'] // 清除文本格式
+            // [{ header: 1 }, { header: 2 }], // 1、2 级标题
+            ['image', 'video', 'link'] // 图片、视频、链接
+            // [{ indent: '-1' }, { indent: '+1' }], // 缩进
+            // ['clean'] // 清除文本格式
           ]
 
         }
