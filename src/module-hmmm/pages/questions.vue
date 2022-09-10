@@ -4,7 +4,7 @@
       <el-card shadow="never">
         <!-- 按钮 -->
         <div class="bth-wrapper">
-      <el-button  type="success" icon="el-icon-edit" size="small">新增试题</el-button>
+      <el-button  type="success" icon="el-icon-edit" size="small" @click="$router.push('new')">新增试题</el-button>
         </div>
         <!-- 筛选 -->
         <el-form label-width="80px" size="small">
@@ -138,7 +138,7 @@
           </el-col>
         </el-row>
       </el-form>
-        <!-- 数据记录 -->
+        <!-- 总计 -->
         <el-alert :title="`数据一共 ${total} 条`" type="info" :closable="false" show-icon  style="margin-bottom:15px"></el-alert>
         <!-- 列表-->
       <el-table :data="questions">
@@ -169,9 +169,9 @@
         <el-table-column label="操作"  width="180px">
           <template slot-scope="scope">
             <el-button plain type="primary" size="small" circle icon="el-icon-view" title="预览" @click="openPreviewDialog(scope.row)"></el-button>
-            <el-button plain type="success" size="small" circle icon="el-icon-edit" title="修改" scope.row.id></el-button>
+            <el-button plain type="success" size="small" circle icon="el-icon-edit" title="修改" @click="$router.push(`new?id=${scope.row.id}`)"></el-button>
             <el-button plain type="danger" size="small" circle icon="el-icon-delete" title="删除" @click="delQuestion(scope.row)"></el-button>
-            <el-button plain type="warning" size="small" circle icon="el-icon-check"  title="加入精选"  scope.row.addChoice ></el-button>
+            <el-button plain type="warning" size="small" circle icon="el-icon-check"  title="加入精选" @click="addChoice(scope.row)" ></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -196,18 +196,19 @@
 </template>
 
 <script>
+import QuestionsPreview from '../components/questions-preview'
 import { simple as subjectList } from '@/api/hmmm/subjects'
 import { simple as directoryList } from '@/api/hmmm/directorys'
 import { simple as userList } from '@/api/base/users'
 import { difficulty, questionType, direction } from '@/api/hmmm/constants'
 import { simple as tagList } from '@/api/hmmm/tags'
 import { provinces as getCity, citys as getArea } from '@/api/hmmm/citys'
-import { list as questionList, remove as questionDel } from '@/api/hmmm/questions'
+import { list as questionList, remove as questionDel, choiceAdd } from '@/api/hmmm/questions'
 export default {
   name: 'question-page',
-  // components: {
-  //   QuestionsPreview
-  // },
+  components: {
+    QuestionsPreview
+  },
   data () {
     return {
       requestParams: {
@@ -226,6 +227,7 @@ export default {
         page: 1,
         pagesize: 5
       },
+      questions: [],
       total: 0,
       questionType,
       difficulty,
@@ -299,6 +301,16 @@ export default {
       this.$message.success('删除成功')
       this.getList()
     },
+    async addChoice (question) {
+      await this.$confirm('此操作将该题目加入精选, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      })
+      await choiceAdd({ id: question.id, choiceState: 1 })
+      this.$message.success('加入精选成功')
+      this.getList()
+    },
     // 分页
     changePager (newpage) {
       this.requestParams.page = newpage
@@ -310,20 +322,23 @@ export default {
       this.requestParams.pagesize = newSize
       this.getList()
     },
+    // 城市地区
     handleCity (cityName) {
       // 地区选中数据清空
       this.requestParams.city = null
       // 获取城市下的地区赋值给areaOptions
       this.areaOptions = getArea(cityName)
     },
+    // 搜索
+    search () {
+      this.requestParams.page = 1
+      this.getList()
+    },
+    // 清除
     clear () {
       for (const key in this.requestParams) {
         if (key !== 'page' && key !== 'pagesize') this.requestParams[key] = null
       }
-    },
-    search () {
-      this.requestParams.page = 1
-      this.getList()
     }
   }
 }
