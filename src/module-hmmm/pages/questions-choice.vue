@@ -258,7 +258,7 @@ export default {
       questionType,
       difficulty,
       total: 0,
-      // 注意：如果响应响应式数据 先声明
+      // 如果响应响应式数据 先声明
       questions: [],
       requestParams: {
         subjectID: null,
@@ -297,6 +297,7 @@ export default {
       directoryOptions: []
     }
   },
+
   async created () {
     // 学科下拉选项
     const { data: subjectArr } = await subjectList()
@@ -312,7 +313,7 @@ export default {
       this.requestParams.page = 1
       this.getList()
     },
-    // 下架 或 下架
+    // 下架 或 上架
     async togglePublish (question) {
       await this.$confirm(`您确认${question.publishState === 1 ? '下架' : '上架'}这道题目吗?`, '提示', {
         confirmButtonText: '确定',
@@ -353,6 +354,7 @@ export default {
         this.$refs.questionPreview.open()
       })
     },
+    // 删除
     async delQuestion (question) {
       await this.$confirm('此操作将永久删除该题目, 是否继续?', '提示', {
         confirmButtonText: '确定',
