@@ -68,6 +68,19 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <el-pagination
+        style="margin-top:20px;text-align:right"
+        background
+        layout="prev, pager, next, sizes, jumper"
+        :total="total"
+        :page-size="tagPage.pagesize"
+        :current-page="tagPage.page"
+        @current-change="pager"
+        :page-sizes="[5,10,20,50]"
+        @size-change="handleSizeChange"
+        hide-on-single-page
+      ></el-pagination>
     </div>
     <!-- 添加和修改 -->
     <tags-add ref="tagssAdd" :data="currTag" @updateList="updateList()"></tags-add>
@@ -153,6 +166,17 @@ export default {
       })
       await remove(tag)
       this.$message.success('删除成功')
+      this.getList()
+    },
+    // 切换条数
+    handleSizeChange (size) {
+      this.tagPage.page = 1
+      this.tagPage.pagesize = size
+      this.getList()
+    },
+    // 切换分页
+    pager (np) {
+      this.tagPage.page = np
       this.getList()
     }
   }
