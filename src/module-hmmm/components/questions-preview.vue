@@ -1,10 +1,18 @@
 <template>
   <div class="questions-preview">
+<<<<<<< HEAD
     <el-dialog title="题目预览" :visible.sync="show" width="900px" @close="handelClose()">
       <el-row>
         <el-col :span="6">【题型】：{{myData.questionType|questionTypes}}</el-col>
         <el-col :span="6">【编号】：{{myData.id}}</el-col>
         <el-col :span="6">【难度】：{{myData.difficulty|difficulty}}</el-col>
+=======
+    <el-dialog title="题目预览" :visible.sync="show" width="900px" @close="close()">
+      <el-row>
+        <el-col :span="6">【题型】：{{myData.questionType|tx}}</el-col>
+        <el-col :span="6">【编号】：{{myData.id}}</el-col>
+        <el-col :span="6">【难度】：{{myData.difficulty|nd}}</el-col>
+>>>>>>> feature/questions
         <el-col :span="6">【标签】：{{myData.tags}}</el-col>
         <el-col :span="6">【学科】：{{myData.subjectName}}</el-col>
         <el-col :span="6">【目录】：{{myData.directoryName}}</el-col>
@@ -13,7 +21,11 @@
       <hr>
       【题干】：<div v-html="myData.question" style="color:blue"></div>
       <div v-if="myData.questionType!=='3'">
+<<<<<<< HEAD
         <div style="padding-bottom:5px">{{myData.questionType|questionTypes}} 选项：（以下选中的选项为正确答案）</div>
+=======
+        <div style="padding-bottom:5px">{{myData.questionType|tx}} 选项：（以下选中的选项为正确答案）</div>
+>>>>>>> feature/questions
         <div v-for="item in myData.options" :key="item.code" style="padding:8px 0">
           <el-radio v-if="myData.questionType==='1'" :value="item.isRight" :label="1">{{item.title}}</el-radio>
           <el-checkbox v-if="myData.questionType==='2'" :value="item.isRight?true:false" >{{item.title}}</el-checkbox>
@@ -29,7 +41,11 @@
       <hr>
       【题目备注】：{{myData.remarks}}
       <div slot="footer">
+<<<<<<< HEAD
         <el-button type="primary">关闭</el-button>
+=======
+        <el-button type="primary" @click="handleClose">关闭</el-button>
+>>>>>>> feature/questions
       </div>
     </el-dialog>
   </div>
@@ -46,6 +62,7 @@ export default {
       default: () => {}
     }
   },
+<<<<<<< HEAD
   // 过滤器 管道符
   filters: {
     // 题目难度
@@ -54,6 +71,13 @@ export default {
     },
     // 问题类型
     questionTypes (value) {
+=======
+  filters: {
+    nd (value) {
+      if (value) return difficulty.find(item => item.value === +value).label
+    },
+    tx (value) {
+>>>>>>> feature/questions
       if (value) return questionType.find(item => item.value === +value).label + '题'
     }
   },
@@ -72,6 +96,7 @@ export default {
     },
     preivewVideo () {
       this.play = true
+<<<<<<< HEAD
       this.$nextTick(() => {
         this.$refs.video.play()
       })
@@ -81,6 +106,16 @@ export default {
       this.$nextTick(() => {
         this.$refs.video.pause()
       })
+=======
+      this.$refs.video.play()
+    },
+    close () {
+      this.play = false
+      this.$refs.video.pause()
+    },
+    handleClose () {
+      this.show = false
+>>>>>>> feature/questions
     }
   }
 }
