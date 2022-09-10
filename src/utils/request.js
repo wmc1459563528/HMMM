@@ -15,8 +15,8 @@ const instance = axios.create({
 
   baseURL: 'http://9803.kylexk.com', // 线上地址 */
 
-  // baseURL: 'http://localhost:7001', // 本地地址，7001是默认端口号
   baseURL: 'http://9803.kylexk.com', // 线上地址
+  // baseURL: 'http://localhost:7001', // 本地地址，7001是默认端口号
   timeout: 5000 // request timeout
 })
 
