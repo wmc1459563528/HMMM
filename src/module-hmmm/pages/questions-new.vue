@@ -487,7 +487,7 @@ export default {
       this.$refs.form.validateField('question')
       //  console.log(this.$refs.quillEditor.value.length)
       if (this.$refs.quillEditor.value.length >= 500) {
-        this.$message.warning('题干或答案解析的内容长度不能超过500个字符')
+        this.$message.warning('题干或答案解析的内容长度不能超过257个字符')
       }
     },
     async gitDetail () {
