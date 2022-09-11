@@ -116,6 +116,7 @@
           <!-- 题干 -->
           <el-form-item label="题干：" prop="question">
             <quill-editor
+              ref="quillEditor"
               @blur="checkQustion"
               v-model="formData.question"
               :options="editorOptions"
@@ -192,6 +193,7 @@
           <!-- 答案解析 -->
           <el-form-item label="答案解析:" prop="answer">
             <quill-editor
+              ref="quillEditor"
               @blur="checkQustion"
               v-model="formData.answer"
               :options="editorOptions"
@@ -258,7 +260,7 @@ import 'quill/dist/quill.bubble.css'
 import UplodaImage from '../components/uploda-image.vue'
 
 export default {
-  name: 'ononeon',
+  name: 'QuestionsNew',
   components: {
     quillEditor,
     UplodaImage
@@ -272,7 +274,7 @@ export default {
 
       // 4.富文本输入的时候高亮效果
       editorOptions: {
-        placeholder: '',
+        placeholder: '请输入0-500位字符',
         modules: {
           // id设置
           toolbar: [
@@ -481,13 +483,17 @@ export default {
       })
     },
     checkQustion () {
-      // 验证富文本
+      // 验证富文本长度
       this.$refs.form.validateField('question')
+      //  console.log(this.$refs.quillEditor.value.length)
+      if (this.$refs.quillEditor.value.length >= 500) {
+        this.$message.warning('题干或答案解析的内容长度不能超过500个字符')
+      }
     },
     async gitDetail () {
-      const { data } = await detail({ id: '23' })
-      console.log(data)
-      data.tags = data.tags.split(',')
+      const { data } = await detail({ id: this.$route.query.id })
+      console.log(data, data.tags)
+      if (data.tags) data.tags = data.tags.split(',')
       data.options = data.options.map((item) => {
         item.isRight = item.isRight === 1
         return item

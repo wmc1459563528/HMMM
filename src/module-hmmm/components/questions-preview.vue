@@ -29,7 +29,7 @@
       <hr>
       【题目备注】：{{myData.remarks}}
       <div slot="footer">
-        <el-button type="primary">关闭</el-button>
+        <el-button @click="handelClose" type="primary">关闭</el-button>
       </div>
     </el-dialog>
   </div>
@@ -78,6 +78,7 @@ export default {
     },
     handelClose () {
       this.play = false
+      this.show = false
       this.$nextTick(() => {
         this.$refs.video.pause()
       })

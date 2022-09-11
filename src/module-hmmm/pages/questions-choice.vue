@@ -318,14 +318,10 @@ export default {
     },
     // 下架 或 上架
     async togglePublish (question) {
-      await this.$confirm(`您确认${question.publishState === 1 ? '下架' : '上架'}这道题目吗?`, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
+      await this.$confirm(`您确认${question.publishState === 1 ? '下架' : '上架'}这道题目吗?`, '提示', { type: 'warning' })
       question.publishState = question.publishState === 1 ? 0 : 1
       await choicePublish(question)
-      this.$message.success(`${question.publishState === 1 ? '下架' : '上架'}成功`)
+      this.$message.success(`${question.publishState === 1 ? '上架' : '下架'}成功`)
       this.getList()
     },
     // 审核
