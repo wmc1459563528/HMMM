@@ -31,7 +31,7 @@
         show-icon
       ></el-alert>
       <!-- 列表 -->
-      <el-table :data="questions">
+      <el-table :data="questions" v-loading="loading"  element-loading-text="拼命加载中">
         <el-table-column label="编号" prop="id" width="220px"></el-table-column>
         <el-table-column label="题型" width="80px">
           <template slot-scope="scope">
@@ -107,6 +107,7 @@ export default {
       difficulty,
       total: 0,
       questions: [],
+      loading: false,
       Qran: {
         keyword: null,
         page: 1,
@@ -121,9 +122,11 @@ export default {
   methods: {
     // 获取列表
     async getList () {
+      this.loading = true
       const { data: questionsData } = await questionList(this.Qran)
       this.questions = questionsData.items
       this.total = questionsData.counts
+      this.loading = false
     },
     // 输出题目编号
     openPreviewDialog (questionInfo) {

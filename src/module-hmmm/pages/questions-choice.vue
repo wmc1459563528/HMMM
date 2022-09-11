@@ -154,7 +154,7 @@
         show-icon
       ></el-alert>
       <!-- 列表 -->
-      <el-table :data="questions" class="my-table">
+      <el-table :data="questions" class="my-table" v-loading="loading"  element-loading-text="拼命加载中">
         <el-table-column label="试题编号" prop="number" width="120px"></el-table-column>
         <el-table-column label="学科" prop="subject" width="120px"></el-table-column>
         <el-table-column label="目录" prop="catalog" width="120px"></el-table-column>
@@ -295,7 +295,9 @@ export default {
       // 录入人
       userOptions: [],
       // 目录
-      directoryOptions: []
+      directoryOptions: [],
+      // 加载状态
+      loading: false
     }
   },
 
@@ -376,11 +378,13 @@ export default {
       this.getList()
     },
     async getList () {
+      this.loading = true
       const params = { ...this.requestParams }
       if (params.chkState === 'all') params.chkState = null
       const { data: questionsData } = await questionList(params)
       this.questions = questionsData.items
       this.total = questionsData.counts
+      this.loading = false
     },
     handleSizeChange (size) {
       this.requestParams.page = 1

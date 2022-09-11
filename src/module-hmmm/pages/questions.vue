@@ -141,7 +141,7 @@
         <!-- 总计 -->
         <el-alert :title="`数据一共 ${total} 条`" type="info" :closable="false" show-icon  style="margin-bottom:15px"></el-alert>
         <!-- 列表-->
-      <el-table :data="questions">
+      <el-table :data="questions" v-loading="loading"  element-loading-text="拼命加载中">
         <el-table-column label="试题编号" prop="number" width="120px"></el-table-column>
         <el-table-column label="学科"  prop="subject"></el-table-column>
         <el-table-column label="目录" prop="catalog"></el-table-column>
@@ -249,7 +249,9 @@ export default {
       // 方向选项
       directionOptions: direction,
       // 目录
-      directoryOptions: []
+      directoryOptions: [],
+      // 加载状态
+      loading: false
     }
   },
   async   created () {
@@ -279,9 +281,11 @@ export default {
       }
     },
     async getList () {
+      this.loading = true
       const { data: questionsData } = await questionList(this.requestParams)
       this.questions = questionsData.items
       this.total = questionsData.counts
+      this.loading = false
     },
     // 预览功能
     openPreviewDialog (questionInfo) {

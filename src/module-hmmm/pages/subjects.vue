@@ -28,7 +28,7 @@
         show-icon
       ></el-alert>
       <!-- 表格 -->
-      <el-table :data="subjects">
+      <el-table :data="subjects" v-loading="loading"  element-loading-text="拼命加载中">
         <el-table-column label="序号" type="index"></el-table-column>
         <el-table-column label="学科名称" prop="subjectName"></el-table-column>
         <el-table-column label="创建者" prop="username"></el-table-column>
@@ -83,7 +83,8 @@ export default {
       },
       subjects: [],
       total: 0,
-      currSubject: {}
+      currSubject: {},
+      loading: false
     }
   },
   created () {
@@ -145,9 +146,11 @@ export default {
     },
     // 查询列表
     async getList () {
+      this.loading = true
       const { data } = await getSubjects(this.requestParams)
       this.subjects = data.items
       this.total = data.counts
+      this.loading = false
     }
   }
 }

@@ -43,7 +43,7 @@
         show-icon
       ></el-alert>
       <!-- 表格 -->
-      <el-table :data="directorys">
+      <el-table :data="directorys" v-loading="loading"  element-loading-text="拼命加载中">
         <el-table-column label="序号" type="index" width="80px"></el-table-column>
         <el-table-column label="所属学科" prop="subjectName"></el-table-column>
         <el-table-column label="目录名称" prop="directoryName"></el-table-column>
@@ -98,7 +98,8 @@ export default {
       },
       total: 0,
       directorys: [],
-      currDirectory: {}
+      currDirectory: {},
+      loading: false
     }
   },
   computed: {
@@ -160,10 +161,12 @@ export default {
     },
     // 查询列表
     async getList () {
+      this.loading = true
       this.requestParams.subjectID = this.subject.id || null
       const { data } = await list(this.requestParams)
       this.directorys = data.items
       this.total = data.counts
+      this.loading = false
     },
     // 切换条数
     handleSizeChange (size) {

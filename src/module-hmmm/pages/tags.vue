@@ -49,7 +49,7 @@
         show-icon
       ></el-alert>
       <!-- 表格 -->
-      <el-table :data="tags">
+      <el-table :data="tags" v-loading="loading"  element-loading-text="拼命加载中">
         <el-table-column label="序号" type="index" width="80px"></el-table-column>
         <el-table-column label="所属学科" prop="subjectName"></el-table-column>
         <el-table-column label="标签名称" prop="tagName"></el-table-column>
@@ -103,7 +103,8 @@ export default {
       },
       total: 0,
       tags: [],
-      currTag: {}
+      currTag: {},
+      loading: false
     }
   },
   computed: {
@@ -132,10 +133,12 @@ export default {
     },
     // 获取列表
     async getList () {
+      this.loading = true
       this.tagPage.subjectID = this.subject.id || null
       const { data } = await list(this.tagPage)
       this.tags = data.items
       this.total = data.counts
+      this.loading = false
     },
     // 新增目录
     addTag (tag = {}) {
